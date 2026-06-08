@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Tanisha Laud
+8th June 2026 
+Unvaulted take home
 
-## Getting Started
+Tech stack: Next.js, React, TypeScript, Tailwind CSS, Supabase Auth, Supabase Postgres, Vercel, Sentry
 
-First, run the development server:
+Formula:
+metal value = weight × metal base price × purity multiplier
 
-```bash
+gemstone value = gemstone carats × gemstone price per carat
+
+estimated value = (metal value + gemstone value) × condition
+
+Assumptions:
+The app currently uses the following assumed metal prices:
+Gold: $70 per gram
+Silver: $0.90 per gram
+Platinum: $32 per gram
+The app currently uses the following assumed gemstone prices:
+Diamond: $1,200 per carat
+Ruby: $800 per carat
+Sapphire: $600 per carat
+Emerald: $700 per carat
+The app also applies multipliers for metal purity, item condition, and brand tier.
+Example purity assumptions:
+10k gold = 41.7% pure gold
+14k gold = 58.5% pure gold
+18k gold = 75% pure gold
+22k gold = 91.7% pure gold
+24k gold = 100% pure gold
+Sterling silver = 92.5% silver
+Example condition assumptions:
+Poor = 0.55x
+Fair = 0.70x
+Good = 0.85x
+Excellent = 1.00x
+Example brand assumptions:
+Generic = 1.00x
+Known brand = 1.20x
+Luxury brand = 1.60x
+These assumptions make the calculator predictable and easy to explain. In a production version, I would replace or supplement these fixed values with live commodity pricing, more detailed gemstone grading, and professional appraisal data.
+
+
+
+Running Locally:
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+AI Tool Usage
+I used ChatGPT to help plan the project, debug setup issues, create code structure, troubleshoot GitHub/Vercel deployment errors, and draft this README. The full chat history is attached below:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<img width="391" height="652" alt="Screenshot 2026-06-08 at 10 30 59 PM" src="https://github.com/user-attachments/assets/30b51964-b728-4ccd-9e0b-bca45da56931" />
