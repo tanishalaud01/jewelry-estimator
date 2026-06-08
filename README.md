@@ -52,3 +52,10 @@ I used ChatGPT to help plan the project, debug setup issues, create code structu
 
 
 <img width="391" height="652" alt="Screenshot 2026-06-08 at 10 30 59 PM" src="https://github.com/user-attachments/assets/30b51964-b728-4ccd-9e0b-bca45da56931" />
+
+<img width="475" height="688" alt="Screenshot 2026-06-08 at 10 38 09 PM" src="https://github.com/user-attachments/assets/0eb324e7-28b5-4d25-8891-a5a44ac030b3" />
+
+<img width="454" height="727" alt="Screenshot 2026-06-08 at 10 39 45 PM" src="https://github.com/user-attachments/assets/104f72cc-9fac-4b63-a561-ad11d9dfb4d8" />
+
+
+
