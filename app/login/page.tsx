@@ -41,7 +41,7 @@ export default function LoginPage() {
           Email
         </label>
         <input
-          className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400"
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
@@ -52,7 +52,7 @@ export default function LoginPage() {
           Password
         </label>
         <input
-          className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400"
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}

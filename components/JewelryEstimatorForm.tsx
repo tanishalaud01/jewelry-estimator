@@ -84,7 +84,7 @@ export default function JewelryEstimatorForm() {
             Jewelry type
           </label>
           <select
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900"
             value={jewelryType}
             onChange={(event) => setJewelryType(event.target.value)}
           >
@@ -100,7 +100,7 @@ export default function JewelryEstimatorForm() {
             Metal
           </label>
           <select
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900"
             value={metal}
             onChange={(event) => setMetal(event.target.value)}
           >
@@ -115,7 +115,7 @@ export default function JewelryEstimatorForm() {
             Purity
           </label>
           <select
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900"
             value={purity}
             onChange={(event) => setPurity(event.target.value)}
           >
@@ -134,7 +134,7 @@ export default function JewelryEstimatorForm() {
             Weight in grams
           </label>
           <input
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400"
             type="number"
             min="0"
             step="0.1"
@@ -148,7 +148,7 @@ export default function JewelryEstimatorForm() {
             Gemstone
           </label>
           <select
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900"
             value={gemstone}
             onChange={(event) => setGemstone(event.target.value)}
           >
@@ -165,7 +165,7 @@ export default function JewelryEstimatorForm() {
             Gemstone carats
           </label>
           <input
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400"
             type="number"
             min="0"
             step="0.1"
@@ -179,7 +179,7 @@ export default function JewelryEstimatorForm() {
             Condition
           </label>
           <select
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900"
             value={condition}
             onChange={(event) => setCondition(event.target.value)}
           >
@@ -195,7 +195,7 @@ export default function JewelryEstimatorForm() {
             Brand tier
           </label>
           <select
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900"
             value={brandTier}
             onChange={(event) => setBrandTier(event.target.value)}
           >
