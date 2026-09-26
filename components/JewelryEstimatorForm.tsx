@@ -67,9 +67,9 @@ export default function JewelryEstimatorForm() {
   const [jewelryType, setJewelryType] = useState("ring");
   const [metal, setMetal] = useState<Metal>("gold");
   const [purity, setPurity] = useState("14k");
-  const [weightGrams, setWeightGrams] = useState(5);
+  const [weightGrams, setWeightGrams] = useState("5");
   const [gemstone, setGemstone] = useState("diamond");
-  const [gemstoneCarat, setGemstoneCarat] = useState(1);
+  const [gemstoneCarat, setGemstoneCarat] = useState("1");
   const [condition, setCondition] = useState("good");
   const [brandTier, setBrandTier] = useState("generic");
 
@@ -120,9 +120,9 @@ export default function JewelryEstimatorForm() {
         jewelryType,
         metal,
         purity,
-        weightGrams,
+        weightGrams: Number(weightGrams) || 0,
         gemstone,
-        gemstoneCarat,
+        gemstoneCarat: Number(gemstoneCarat) || 0,
         condition,
         brandTier,
       },
@@ -150,9 +150,9 @@ export default function JewelryEstimatorForm() {
       jewelry_type: jewelryType,
       metal,
       purity,
-      weight_grams: weightGrams,
+      weight_grams: Number(weightGrams) || 0,
       gemstone,
-      gemstone_carat: gemstoneCarat,
+      gemstone_carat: Number(gemstoneCarat) || 0,
       condition,
       brand_tier: brandTier,
       metal_value: estimate.metalValue,
@@ -292,7 +292,7 @@ export default function JewelryEstimatorForm() {
             min="0"
             step="0.1"
             value={weightGrams}
-            onChange={(event) => setWeightGrams(Number(event.target.value))}
+            onChange={(event) => setWeightGrams(event.target.value)}
           />
         </div>
 
@@ -317,7 +317,7 @@ export default function JewelryEstimatorForm() {
             min="0"
             step="0.1"
             value={gemstoneCarat}
-            onChange={(event) => setGemstoneCarat(Number(event.target.value))}
+            onChange={(event) => setGemstoneCarat(event.target.value)}
           />
         </div>
 
