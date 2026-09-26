@@ -30,29 +30,37 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
+    <main className="flex min-h-screen items-center justify-center px-6">
       <form
         onSubmit={handleLogin}
-        className="w-full max-w-md rounded-xl bg-white p-8 shadow"
+        className="w-full max-w-md rounded-xl border border-border bg-surface p-8 shadow-sm"
       >
-        <h1 className="text-2xl font-bold text-gray-900">Log in</h1>
+        <Link
+          href="/"
+          className="text-xs font-medium uppercase tracking-wide text-muted transition hover:text-accent"
+        >
+          Jewelry Value Estimator
+        </Link>
+        <h1 className="mt-2 text-2xl font-semibold text-foreground">
+          Log in
+        </h1>
 
-        <label className="mt-6 block text-sm font-medium text-gray-700">
+        <label className="mt-6 block text-sm font-medium text-muted">
           Email
         </label>
         <input
-          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400"
+          className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           required
         />
 
-        <label className="mt-4 block text-sm font-medium text-gray-700">
+        <label className="mt-4 block text-sm font-medium text-muted">
           Password
         </label>
         <input
-          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400"
+          className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
@@ -61,14 +69,14 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="mt-6 w-full rounded-md bg-black px-4 py-2 text-white"
+          className="mt-6 w-full rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground shadow-sm transition hover:opacity-90"
         >
           Log in
         </button>
 
-        <p className="mt-4 text-sm text-gray-600">
+        <p className="mt-4 text-sm text-muted">
           Need an account?{" "}
-          <Link href="/signup" className="underline">
+          <Link href="/signup" className="font-medium text-accent underline">
             Sign up
           </Link>
         </p>

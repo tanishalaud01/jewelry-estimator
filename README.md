@@ -5,17 +5,29 @@ Unvaulted take home
 Tech stack: Next.js, React, TypeScript, Tailwind CSS, Supabase Auth, Supabase Postgres, Vercel, Sentry
 
 Formula:
-metal value = weight × metal base price × purity multiplier
+metal value = weight × metal spot price (per gram) × purity multiplier
 
 gemstone value = gemstone carats × gemstone price per carat
 
-estimated value = (metal value + gemstone value) × condition
+estimated value = (metal value + gemstone value) × condition × brand tier
+
+Live price index:
+Metal spot prices are no longer hardcoded. `lib/priceIndex.ts` fetches live
+gold/silver/platinum spot prices (via gold-api.com, no API key required),
+converts troy-ounce prices to price-per-gram, and exposes them through
+`GET /api/price-index` as a snapshot: `{ metal, pricePerGram, asOf, source }`.
+If the live fetch fails, each metal falls back independently to a static
+reference price (`source: "fallback"`) so the app degrades gracefully
+instead of breaking. The dashboard displays the index (price, source, and
+timestamp) above the form, and the estimate result shows exactly which
+price point it was calculated against.
+
+This mirrors a benchmark/index pattern: a dedicated layer resolves the
+current market price for a commoditized input, and every downstream
+calculation consumes that index rather than embedding its own assumption
+of what the price is.
 
 Assumptions:
-The app currently uses the following assumed metal prices:
-Gold: $70 per gram
-Silver: $0.90 per gram
-Platinum: $32 per gram
 The app currently uses the following assumed gemstone prices:
 Diamond: $1,200 per carat
 Ruby: $800 per carat
@@ -38,7 +50,13 @@ Example brand assumptions:
 Generic = 1.00x
 Known brand = 1.20x
 Luxury brand = 1.60x
-These assumptions make the calculator predictable and easy to explain. In a production version, I would replace or supplement these fixed values with live commodity pricing, more detailed gemstone grading, and professional appraisal data.
+Gemstone prices, purity, condition, and brand multipliers are still fixed
+assumptions rather than live market data. In a production version, I'd
+replace or supplement these with real transaction data, more detailed
+gemstone grading (cut/clarity/color), and professional appraisal data —
+the same gap between listed/assumed prices and real-transaction-based
+benchmarks that pricing infrastructure providers in other commodity
+markets (e.g. compute, energy) are built to close.
 
 
 
