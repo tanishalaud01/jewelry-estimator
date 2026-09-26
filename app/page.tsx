@@ -5,7 +5,7 @@ export default function HomePage() {
     <main className="flex min-h-screen flex-col items-center justify-center px-6">
       <div className="w-full max-w-xl text-center">
         <Link
-          href="/index"
+          href="/price-index"
           className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted transition hover:text-accent"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-positive" />
@@ -39,7 +39,7 @@ export default function HomePage() {
         </div>
 
         <Link
-          href="/index"
+          href="/price-index"
           className="mt-4 inline-block text-sm text-muted underline transition hover:text-accent"
         >
           View the index →

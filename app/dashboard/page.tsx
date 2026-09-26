@@ -38,7 +38,7 @@ export default async function DashboardPage() {
 
           <div className="flex items-center gap-3">
             <Link
-              href="/index"
+              href="/price-index"
               className="rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground transition hover:bg-surface-muted"
             >
               View index
