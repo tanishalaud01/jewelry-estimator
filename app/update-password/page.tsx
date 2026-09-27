@@ -1,56 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function SignupPage() {
-  const router = useRouter();
+export default function UpdatePasswordPage() {
   const supabase = createClient();
 
-  const [email, setEmail] = useState("");
+  const [ready, setReady] = useState(false);
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  async function handleSignup(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    setAlreadyRegistered(false);
-    setSubmitting(true);
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") setReady(true);
     });
 
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) setReady(true);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase]);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+
+    if (password !== confirmPassword) {
+      setError("Passwords don't match.");
+      return;
+    }
+
+    setSubmitting(true);
+    const { error } = await supabase.auth.updateUser({ password });
     setSubmitting(false);
 
     if (error) {
-      if (error.message.toLowerCase().includes("already registered")) {
-        setAlreadyRegistered(true);
-      } else {
-        setError(error.message);
-      }
-      return;
-    }
-
-    // With email confirmation on, Supabase returns a user with no
-    // identities instead of an error when the email is already registered.
-    if (data.user && data.user.identities?.length === 0) {
-      setAlreadyRegistered(true);
-      return;
-    }
-
-    // Email confirmation is off for this project, so signUp already
-    // returns a live session — go straight in instead of making the
-    // user log in again.
-    if (data.session) {
-      router.push("/dashboard");
-      router.refresh();
+      setError(error.message);
       return;
     }
 
@@ -62,17 +54,38 @@ export default function SignupPage() {
       <main className="flex min-h-screen items-center justify-center px-6">
         <div className="w-full max-w-md rounded-xl border border-border bg-surface p-8 text-center shadow-sm">
           <h1 className="text-2xl font-semibold text-foreground">
-            Check your email
+            Password updated
           </h1>
           <p className="mt-3 text-sm text-muted">
-            We sent a confirmation link to <strong>{email}</strong>. Once
-            confirmed, you can log in.
+            Your password has been changed.
           </p>
           <Link
-            href="/login"
+            href="/dashboard"
             className="mt-6 inline-block rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground shadow-sm transition hover:opacity-90"
           >
-            Go to log in
+            Go to dashboard
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  if (!ready) {
+    return (
+      <main className="flex min-h-screen items-center justify-center px-6">
+        <div className="w-full max-w-md rounded-xl border border-border bg-surface p-8 text-center shadow-sm">
+          <h1 className="text-2xl font-semibold text-foreground">
+            Reset link needed
+          </h1>
+          <p className="mt-3 text-sm text-muted">
+            Open this page from the password reset link in your email. If
+            it&rsquo;s expired, request a new one.
+          </p>
+          <Link
+            href="/forgot-password"
+            className="mt-6 inline-block rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground shadow-sm transition hover:opacity-90"
+          >
+            Request a new link
           </Link>
         </div>
       </main>
@@ -82,7 +95,7 @@ export default function SignupPage() {
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
       <form
-        onSubmit={handleSignup}
+        onSubmit={handleSubmit}
         className="w-full max-w-md rounded-xl border border-border bg-surface p-8 shadow-sm"
       >
         <Link
@@ -92,22 +105,8 @@ export default function SignupPage() {
           Jewelry Value Estimator
         </Link>
         <h1 className="mt-2 text-2xl font-semibold text-foreground">
-          Create account
+          Set a new password
         </h1>
-
-        {alreadyRegistered && (
-          <p className="mt-4 rounded-md border border-warning/30 bg-warning-bg px-3 py-2 text-sm text-warning">
-            You already have an account with this email.{" "}
-            <Link href="/login" className="font-medium underline">
-              Log in
-            </Link>{" "}
-            or{" "}
-            <Link href="/forgot-password" className="font-medium underline">
-              reset your password
-            </Link>{" "}
-            instead.
-          </p>
-        )}
 
         {error && (
           <p className="mt-4 rounded-md border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
@@ -116,18 +115,7 @@ export default function SignupPage() {
         )}
 
         <label className="mt-6 block text-sm font-medium text-muted">
-          Email
-        </label>
-        <input
-          className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-        />
-
-        <label className="mt-4 block text-sm font-medium text-muted">
-          Password
+          New password
         </label>
         <input
           className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
@@ -138,20 +126,25 @@ export default function SignupPage() {
           minLength={6}
         />
 
+        <label className="mt-4 block text-sm font-medium text-muted">
+          Confirm new password
+        </label>
+        <input
+          className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+          type="password"
+          value={confirmPassword}
+          onChange={(event) => setConfirmPassword(event.target.value)}
+          required
+          minLength={6}
+        />
+
         <button
           type="submit"
           disabled={submitting}
           className="mt-6 w-full rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground shadow-sm transition hover:opacity-90 disabled:opacity-50"
         >
-          {submitting ? "Signing up…" : "Sign up"}
+          {submitting ? "Updating…" : "Update password"}
         </button>
-
-        <p className="mt-4 text-sm text-muted">
-          Already have an account?{" "}
-          <Link href="/login" className="font-medium text-accent underline">
-            Log in
-          </Link>
-        </p>
       </form>
     </main>
   );

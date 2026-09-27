@@ -3,46 +3,60 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
-  const router = useRouter();
+export default function ForgotPasswordPage() {
   const supabase = createClient();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
 
-  async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     setSubmitting(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
     });
 
     setSubmitting(false);
 
     if (error) {
-      setError(
-        error.message === "Invalid login credentials"
-          ? "Wrong email or password."
-          : error.message
-      );
+      setError(error.message);
       return;
     }
 
-    router.push("/dashboard");
-    router.refresh();
+    setSent(true);
+  }
+
+  if (sent) {
+    return (
+      <main className="flex min-h-screen items-center justify-center px-6">
+        <div className="w-full max-w-md rounded-xl border border-border bg-surface p-8 text-center shadow-sm">
+          <h1 className="text-2xl font-semibold text-foreground">
+            Check your email
+          </h1>
+          <p className="mt-3 text-sm text-muted">
+            If an account exists for <strong>{email}</strong>, a password
+            reset link is on its way.
+          </p>
+          <Link
+            href="/login"
+            className="mt-6 inline-block rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground shadow-sm transition hover:opacity-90"
+          >
+            Back to log in
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleSubmit}
         className="w-full max-w-md rounded-xl border border-border bg-surface p-8 shadow-sm"
       >
         <Link
@@ -52,8 +66,12 @@ export default function LoginPage() {
           Jewelry Value Estimator
         </Link>
         <h1 className="mt-2 text-2xl font-semibold text-foreground">
-          Log in
+          Reset your password
         </h1>
+        <p className="mt-2 text-sm text-muted">
+          Enter your email and we&rsquo;ll send you a link to reset your
+          password.
+        </p>
 
         {error && (
           <p className="mt-4 rounded-md border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
@@ -72,37 +90,17 @@ export default function LoginPage() {
           required
         />
 
-        <div className="mt-4 flex items-center justify-between">
-          <label className="block text-sm font-medium text-muted">
-            Password
-          </label>
-          <Link
-            href="/forgot-password"
-            className="text-xs font-medium text-accent underline"
-          >
-            Forgot password?
-          </Link>
-        </div>
-        <input
-          className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
-
         <button
           type="submit"
           disabled={submitting}
           className="mt-6 w-full rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground shadow-sm transition hover:opacity-90 disabled:opacity-50"
         >
-          {submitting ? "Logging in…" : "Log in"}
+          {submitting ? "Sending…" : "Send reset link"}
         </button>
 
         <p className="mt-4 text-sm text-muted">
-          Need an account?{" "}
-          <Link href="/signup" className="font-medium text-accent underline">
-            Sign up
+          <Link href="/login" className="font-medium text-accent underline">
+            Back to log in
           </Link>
         </p>
       </form>
